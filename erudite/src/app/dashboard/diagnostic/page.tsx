@@ -1,8 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import DiagnoticTest from "@/components/DiagnosticTest"
 import { Button } from "@/components/ui/button"
+
+interface ICourse {
+    id: number
+    course_name: string
+}
 
 export default function GenerateTest() {
     // Fetch courses from database
@@ -12,15 +17,12 @@ export default function GenerateTest() {
         console.log(data)
         return data
     }
-    const [data, setData] = useState(getCourse())
-    const courses = [{
-        'id': 1,
-        'course_name': 'CS170',
-    },
-    {
-        'id': 2,
-        'course_name': 'CS188',
-    }]
+    const [courses, setCourses] = useState<ICourse[]>([])
+
+    useEffect(() => {
+        getCourse().then((data) => setCourses(data))
+    }, [])
+    
     const [course, setCourse] = useState("")
     const [generated, setGenerated] = useState(false)
     
