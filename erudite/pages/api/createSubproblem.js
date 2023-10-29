@@ -5,7 +5,7 @@ export default async (req, res) => {
     const { id, count, question_id, title, description } = req.body;
 
     try {
-      const newUser = await prisma.user.create({
+      const newSubproblem = await prisma.subproblems.create({
         data: {
             id, 
             count, 
@@ -14,14 +14,22 @@ export default async (req, res) => {
             description
         },
       });
-
-      res.status(200).json(newUser);
+      const newSubproblemWithBigIntToString = {
+        ...newSubproblem,
+        id: newSubproblem.id.toString(),
+        count: newSubproblem.id.toString(),
+        question_id: newSubproblem.question_id.toString(),
+      }
+      console.log(newSubproblemWithBigIntToString)
+      res.status(200).json(newSubproblemWithBigIntToString);
     } catch (error) {
-      res.status(400).json({ error: 'Failed to create user.' }); // User with same email already in the database
+      console.log(error)
+      res.status(400).json({ error: 'Failed to create subproblem.' }); // User with same email already in the database
     }
   } else {
     res.status(405).end(); // Method Not Allowed
   }
+
 };
 
   

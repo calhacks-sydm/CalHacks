@@ -2,19 +2,27 @@ import prisma from '../../prisma/prisma.js'
 
 export default async (req, res) => {
   if (req.method === 'POST') {
-    const { id, questions, course_id} = req.body;
+    const { id, question, topic_id, hint} = req.body;
 
     try {
       const newQuestions = await prisma.questions.create({
         data: {
           id:id, 
-          questions_name: questions_name, 
-          course_id: course_id,
+          question: question, 
+          topic_id: topic_id,
+          hint: hint
         },
       });
-
-      res.status(200).json(newQuestions);
+      
+      const newQuestionsWithBigIntToString = {
+        ...newQuestions, 
+        id: newQuestions.id.toString(), 
+        topic_id: newQuestions.topic_id.toString(),
+      }
+      console.log(newQuestionsWithBigIntToString);
+      res.status(200).json(newQuestionsWithBigIntToString);
     } catch (error) {
+      console.log(error)
       res.status(400).json({ error: 'Failed to create questions.' }); // User with same email already in the database
     }
   } else {

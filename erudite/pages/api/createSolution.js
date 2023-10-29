@@ -13,10 +13,14 @@ export default async (req, res) => {
             
         },
       });
-
-      res.status(200).json(newSolution);
+      const newSolutionWithBigIntToString = {
+        ...newSolution,
+        id: newSolution.id.toString(),
+        question_id: newSolution.question_id.toString(),
+      }
+      res.status(200).json(newSolutionWithBigIntToString);
     } catch (error) {
-      res.status(400).json({ error: 'Failed to create topic.' }); // User with same email already in the database
+      res.status(400).json({ error: 'Failed to create solution entry.' }); // User with same email already in the database
     }
   } else {
     res.status(405).end(); // Method Not Allowed

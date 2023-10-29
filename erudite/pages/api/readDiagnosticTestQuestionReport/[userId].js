@@ -4,9 +4,10 @@ export default async (req, res) => {
   if (req.method === 'GET') {
     try {
         const {
-            query: { reportId },
+            query: { userId },
         } = req;
-      
+        
+        //TODO
         const diagnosticQuestionsDone = await prisma.diagnosticQuestionsDone.findMany({
           where: {
             report_id: reportId,
@@ -19,7 +20,7 @@ export default async (req, res) => {
           question_id: question.question_id.toString,
           user_id: question.user_id.toString, 
         }));
-
+        //TODO: bring question and solution
         res.status(200).json(diagnosticQuestionsDoneWithBigIntToString);
     } catch (error) {
         res.status(400).json({ error: 'Failed to fetch relevant questions.' });
