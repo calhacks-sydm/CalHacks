@@ -10,6 +10,7 @@ return (
         {/* Include shared UI here e.g. a header or sidebar */}
         <Navbar />
         <Separator />
+        
         {children}
     </section>
 )

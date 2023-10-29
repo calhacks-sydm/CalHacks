@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
@@ -9,12 +9,19 @@ interface LoginProps {
     // Define any props you need here
 }
 
+export interface ILoginContext {
+    email: string;
+    password: string;
+}
+
+export const LoginContext = createContext<ILoginContext>({email: "", password: ""});
+
 const LoginPage: React.FC<LoginProps> = (props) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUsername(event.target.value);
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value);
     };
 
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +35,7 @@ const LoginPage: React.FC<LoginProps> = (props) => {
     };
 
     return (
+        <LoginContext.Provider value={{ email: email, password: password}}>
         <div className='grid grid-cols-2'>
             <div className='bg-white h-screen'>
 
@@ -36,7 +44,7 @@ const LoginPage: React.FC<LoginProps> = (props) => {
                     <h1 className='font-bold text-3xl'>Erudite</h1>
                     <h2 className='font-bold mb-40'>Simplified revisions, Elevated results</h2>
                     <form onSubmit={handleSubmit} >
-                        <Input className='w-3/5 my-4' type='text' placeholder='Username' value={username} onChange={handleUsernameChange}/>
+                        <Input className='w-3/5 my-4' type='text' placeholder='Email' value={email} onChange={handleEmailChange}/>
 
                         <Input className='w-3/5 my-4' type='password' placeholder='Password' value={password} onChange={handlePasswordChange} />
                         
@@ -50,6 +58,7 @@ const LoginPage: React.FC<LoginProps> = (props) => {
                 
             </div>
         </div>
+        </LoginContext.Provider>
     );
 };
 
