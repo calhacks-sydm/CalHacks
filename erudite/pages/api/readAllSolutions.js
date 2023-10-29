@@ -1,21 +1,27 @@
 import prisma from '../../prisma/prisma.js'
 
 export default async (req, res) => {
-  if (req.method === 'GET') {
+  if (req.method == 'POST') {
     try {
-      const solutions = await prisma.solutions.findMany();
-      const solutionsWithBigIntToString = solutions.map((solution) => ({
-        ... solution,
-        id: solution.id.toString(),
-        question_id: solution.question_id.toString(),
-      }));
-      console.log(solutionsWithBigIntToString)
-      res.status(200).json(solutionsWithBigIntToString);
+        
+        const { question, answer, prisma } = req.body; 
+        var courses = await prisma.courseInfo.findMany();
+        var coursesWithBigIntToString = courses.map((course) => ({
+            ...course, 
+            id: course.id.toString(),
+            
+        }));
+        res.status(200).json(coursesWithBigIntToString);
+
+
+
     } catch (error) {
-      console.log(error)
-      res.status(400).json({ error: 'Failed to fetch solutions.' });
+      
+      res.status(400).json({ error: "unable to return all courses" });
     }
   } else {
     res.status(405).end(); // Method Not Allowed
   }
 };
+
+
