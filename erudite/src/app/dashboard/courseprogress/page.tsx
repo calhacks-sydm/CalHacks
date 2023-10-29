@@ -58,7 +58,9 @@ export default function CourseProgress() {
         <h2 className="font-semibold text-[40px]">Topics to work on</h2>
         {/* Component */}
         {/* Sanitize input before passing in; round the number */}
-        <TopicBox progress={70}></TopicBox>
+        <Link href="/topicalreview">
+          <TopicBox progress={70}></TopicBox>
+        </Link>
         <TopicBox progress={50}></TopicBox>
         <TopicBox progress={20}></TopicBox>
       </div>
