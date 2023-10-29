@@ -4,7 +4,6 @@ import { useState } from "react"
 import DiagnoticTest from "@/components/DiagnosticTest"
 import { Button } from "@/components/ui/button"
 
-
 export default function GenerateTest() {
     // Fetch courses from database
     const courses = [{

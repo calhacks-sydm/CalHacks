@@ -4,6 +4,7 @@ import React, { useState, createContext } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface LoginProps {
     // Define any props you need here
@@ -38,23 +39,19 @@ const LoginPage: React.FC<LoginProps> = (props) => {
         <LoginContext.Provider value={{ email: email, password: password}}>
         <div className='grid grid-cols-2'>
             <div className='bg-white h-screen'>
-
-                <div className='flex flex-col rounded-lg p-10 m-20 h-2/3 border-1 border-black'>
-
-                    <h1 className='font-bold text-3xl'>Erudite</h1>
-                    <h2 className='font-bold mb-40'>Simplified revisions, Elevated results</h2>
+                <Image src='/eruditelogin.jpg' width={500} height={500} alt={'logo'} className='ml-24 mt-[25%]' />
+                <div className='flex flex-col rounded-lg p-10 mb-20 ml-20 h-2/3 border-1 border-black'>
+                    {/* <h2 className='font-bold text-xl'>Simplified revisions, Elevated results</h2> */}
                     <form onSubmit={handleSubmit} >
                         <Input className='w-3/5 my-4' type='text' placeholder='Email' value={email} onChange={handleEmailChange}/>
-
                         <Input className='w-3/5 my-4' type='password' placeholder='Password' value={password} onChange={handlePasswordChange} />
-                        
                         <Button type='submit' className='text-white w-40 bg-green-500 hover:bg-green-400' asChild>
                             <Link href="/dashboard">Login</Link>
                         </Button>
                     </form>
                 </div>
             </div>
-            <div>
+            <div className='bg-green-500'>
                 
             </div>
         </div>

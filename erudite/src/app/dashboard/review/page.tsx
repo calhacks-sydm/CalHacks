@@ -29,7 +29,7 @@ const ReviewQuestion: React.FC<IReviewTest> = (props) => {
                     {props.solution}
                 </ScrollArea>
             </div> 
-            <ScrollArea className="h-[150px] border w-full p-4 my-4 ">
+            <ScrollArea className="h-[150px] border w-full p-4 my-2 ">
                 <p className="font-bold">Feedback:</p>
                 {props.feedback}
             </ScrollArea> 
