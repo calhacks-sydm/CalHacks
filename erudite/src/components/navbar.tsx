@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
           {MenuItems.map((item, index) => {
           console.log(item.url);
           return (
-            <li>
+            <li key={index}>
               <Link href={item.url} key={index} className={`rounded-xl p-2 ${path === item.url ? "bg-green-500 text-white" : "bg-white text-black"}`}>
                 {item.label}
               </Link>

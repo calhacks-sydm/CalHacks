@@ -4,14 +4,14 @@ import React, { useState, useContext } from 'react';
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
-import { LoginContext } from "@/app/login/page"
+// import { LoginContext } from "@/app/login/page"
 
 interface DiagnosticTestProps {
     course: string;
 }
 
 interface DiagnosticQuestionProps {
-    email: string;
+    // email: string;
     question_id: number;
     topic: string;
     question_description: string;
@@ -62,7 +62,7 @@ const DiagnosticQuestions: React.FC<DiagnosticQuestionProps> = (props) => {
 export default function DiagnosticTest({course}: DiagnosticTestProps): JSX.Element {
     // Access the course property of the course object
     const courseName = course;
-    let {email, password} = useContext(LoginContext);
+    // let {email, password} = useContext(LoginContext);
     const [currentQuestion, setCurrentQuestion] = useState(0)
     // const getQuestions = async () => {
     //     const response = await fetch();
@@ -91,7 +91,7 @@ export default function DiagnosticTest({course}: DiagnosticTestProps): JSX.Eleme
             {questions.map((question, index) => (
                 index == currentQuestion ? 
                 <DiagnosticQuestions key={index} 
-                email={email}
+                // email={email}
                 question_id={question.question_id} 
                 topic={question.topic}
                 question_description={question.question_description} 

@@ -3,7 +3,7 @@
 import { useState, useContext } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
-import { LoginContext } from "@/app/login/page"
+// import { LoginContext } from "@/app/login/page"
 
 interface IReviewTest {
     question_no: number
@@ -39,7 +39,7 @@ const ReviewQuestion: React.FC<IReviewTest> = (props) => {
 
 
 export default function ReviewTest() {
-    let {email, password} = useContext(LoginContext);
+    // let {email, password} = useContext(LoginContext);
     const [currentQuestion, setCurrentQuestion] = useState(0)
     const [data, setData] = useState<IReviewTest[]>([
         {

@@ -3,6 +3,7 @@
 import React, { useState, createContext } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -20,6 +21,27 @@ export const LoginContext = createContext<ILoginContext>({email: "", password: "
 const LoginPage: React.FC<LoginProps> = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const router = useRouter();
+
+    const authFunc = async ({req}:{req: Request, body: any}) => {
+        const res = await fetch('/api/userLogin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                },
+            body: JSON.stringify({
+                email: email,
+                password: password
+        })})
+        console.log(JSON.stringify(res))
+        console.log(res.status == 200)
+        if (res.status == 200) {
+            router.push("/dashboard")
+        } else {
+            console.log("error")
+        }
+        return res
+    }
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -32,7 +54,7 @@ const LoginPage: React.FC<LoginProps> = (props) => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         // Handle login logic here
-
+        authFunc({req: new Request('/api/userLogin'), body: {email: email, password: password}})
     };
 
     return (
@@ -45,8 +67,8 @@ const LoginPage: React.FC<LoginProps> = (props) => {
                     <form onSubmit={handleSubmit} >
                         <Input className='w-3/5 my-4' type='text' placeholder='Email' value={email} onChange={handleEmailChange}/>
                         <Input className='w-3/5 my-4' type='password' placeholder='Password' value={password} onChange={handlePasswordChange} />
-                        <Button type='submit' className='text-white w-40 bg-green-500 hover:bg-green-400' asChild>
-                            <Link href="/dashboard">Login</Link>
+                        <Button type='submit' className='text-white w-40 bg-green-500 hover:bg-green-400' >Login
+                            {/* <Link href="/dashboard">Login</Link> */}
                         </Button>
                     </form>
                 </div>

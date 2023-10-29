@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button"
 
 export default function GenerateTest() {
     // Fetch courses from database
+    const getCourse = async () => {
+        const res = await fetch('/api/readAllCourses')
+        const data = await res.json()
+        console.log(data)
+        return data
+    }
+    const [data, setData] = useState(getCourse())
     const courses = [{
         'id': 1,
         'course_name': 'CS170',
