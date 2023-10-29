@@ -82,7 +82,15 @@ export default function DiagnosticTest({course}: DiagnosticTestProps): JSX.Eleme
     // let {email, password} = useContext(LoginContext);
     const courseName = course;
     const [currentQuestion, setCurrentQuestion] = useState(0)
-    const [test, setTest] = useState<IDiagTest>({report_id: 0, selected_questions: []})
+    const [test, setTest] = useState<IDiagTest>({report_id: 0, selected_questions: [
+        {
+            question_id: 0,
+            topic_name: "",
+            question: "",
+            hint: ""
+        }
+    ]})
+
     const generateTest = async () => {
         const res = await fetch('/api/generateDiagnosticTest', {
             method: 'GET',
@@ -90,6 +98,11 @@ export default function DiagnosticTest({course}: DiagnosticTestProps): JSX.Eleme
                 'Content-Type': 'application/json'
             }})
         const data = await res.json()
+        if (res.status == 200) {
+            console.log(data)
+        } else {
+            console.log("error")
+        }
         return data
     }
     useEffect(() => {
