@@ -1,4 +1,3 @@
-// pages/api/getUsers.js
 import prisma  from '../../../prisma/prisma.js'
 
 export default async (req, res) => {
@@ -13,6 +12,8 @@ export default async (req, res) => {
               user: userId,
             },
          });
+
+         
         res.status(200).json(newQuestionsDone);
     } catch (error) {
         res.status(400).json({ error: 'Failed to fetch relevant questions.' });
