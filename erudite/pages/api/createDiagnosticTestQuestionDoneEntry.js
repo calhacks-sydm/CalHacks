@@ -2,7 +2,7 @@ import prisma from "../../prisma/prisma.js"
 
 export default async (req, res) => {
     if (req.method === 'POST') {
-        const {  report_id, question_id, user_id, feedback, user_input} = req.body;
+        const { report_id, question_id, user_id, user_input } = req.body;
         
         try {
             const newCourse = await prisma.diagnosticQuestionsDone.create({
@@ -10,7 +10,6 @@ export default async (req, res) => {
                 report_id: report_id,
                 question_id: question_id,
                 user_id: user_id,
-                feedback: feedback,
                 user_input: user_input,
                 },
             });
