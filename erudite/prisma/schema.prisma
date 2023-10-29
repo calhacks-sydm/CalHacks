@@ -18,6 +18,7 @@ model User {
   password     String
   questionsDone QuestionsDone[]
   diagnosticQuestionsDone DiagnosticQuestionsDone[]
+  userTopics   UserTopics[]
 }
 
 model QuestionsDone {
@@ -35,6 +36,7 @@ model CourseInfo {
   course_name String
   topics  Topics[]
   report Reports[]
+  userTopics   UserTopics[]
 }
 
 model Topics {
@@ -43,6 +45,7 @@ model Topics {
   course_id   BigInt
   course      CourseInfo   @relation(fields: [course_id], references: [id])
   questions   Questions[]
+  userTopics   UserTopics[]
 }
 
 model UserTopics {
