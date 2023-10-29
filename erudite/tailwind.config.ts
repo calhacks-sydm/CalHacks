@@ -8,6 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        "ilight-green": "var(--ilight-green)",
+        "idark-green": "var(--idark-green)",
+        "igray": "var(--igray)",
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
