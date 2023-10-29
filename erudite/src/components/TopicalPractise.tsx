@@ -5,18 +5,23 @@ import { Textarea } from "@/components/ui/textarea"
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
 import { LoginContext } from "@/app/login/page"
+import TopicalData from '../utils/data.json'
 
 interface TopicalPractiseProps {
     topic: string;
 }
 
+interface subproblem {
+    title: string,
+    description: string
+}
 interface TopicalPractiseQuestionsProps {
-    question_id: number;
+    question_id: string;
     topic: string;
     question_description: string;
     hint: string;
-    question_subproblems: string[] | null;
-    solution: string;
+    question_subproblems: subproblem[] | null;
+    simplifiedAns: string;
     currentQuestion: number;
     setQuestion: React.Dispatch<React.SetStateAction<number>>;
     totalQuestions: number;
@@ -46,28 +51,27 @@ const TopicalPractiseQuestion: React.FC<TopicalPractiseQuestionsProps> = (props)
     
     return (
         <div className='w-2/3 self-center'>
-            <h1 className='text-3xl font-bold my-4'>Question {props.question_id}</h1>
-            <div className='text-xl font-bold mb-2'>{props.topic}</div>
+            <h1 className='text-xl font-bold my-1'>Question {props.currentQuestion+1}</h1>
             <div className='text-lg my-2'>{props.question_description}</div>
-            {showHint == true ? <div className='text-lg my-2'>Hint: {props.hint}</div>: null}
+            {showHint == true ? <div className='text-lg my-2'><span className='font-bold'>Hint:</span> {props.hint}</div>: null}
             {showDecompose == true ? <div className=' '>{props.question_subproblems ? 
                 <div>
                     <div className='text-lg font-bold'>Decomposed question parts:</div>
                     {props.question_subproblems.map((subproblem, index) => (
-                        <div className='text-lg mt-2' key={index}>{subproblem}</div>
+                        <div className='text-lg mt-1' key={index}>{index + 1}. {subproblem.description}</div>
                     ))}
                 </div>
                 : null
             }</div> :
             null}
-            {showSolution == true ? <div className='text-lg my-2'>Solution: {props.solution}</div>: null}
+            {showSolution == true ? <div className='text-lg my-2'><span className='font-bold'>Solution:</span> {props.simplifiedAns}</div>: null}
             <div className='flex'>
                 <Button className="w-54 bg-green-400 mt-4 mr-2 hover:bg-green-200 " onClick={() => setShowHint(!showHint)}>Show Hint</Button> 
                 <Button className="w-54 bg-green-500 mt-4 mr-2 hover:bg-green-300 " onClick={() => setShowDecompose(!showDecompose)}>Decompose Question</Button> 
                 <Button className="w-54 bg-green-600 mt-4 mr-2 hover:bg-green-400 " onClick={() => setShowSolution(!showSolution)}>Show Solution</Button> 
             </div>
             <Textarea className='w-full my-4' placeholder='Enter your answer here' defaultValue="" value={userAnswer} onChange={handleUserAnswer}/>
-            <Button className="w-54 bg-green-600 hover:bg-green-400" onClick={handleSubmitAnswer}>{props.currentQuestion == props.totalQuestions-1 ? "Submit Answers": "Save Answer"}</Button> 
+            <Button disabled={showSolution==true} className="w-54 bg-green-600 hover:bg-green-400" onClick={handleSubmitAnswer}>{props.currentQuestion == props.totalQuestions-1 ? "Submit Answers": "Save Answer"}</Button> 
             
         </div>
     )
@@ -83,23 +87,23 @@ export default function TopicalPractise({topic}: TopicalPractiseProps): JSX.Elem
     // const getQuestions = async () => {
     //     const response = await fetch();
     // }
-
-    const questions = [{
-        'question_id': 1,
-        'topic': 'Recurrence Relation',
-        'question_description': 'For each part, find the asymptotc growth of T; that is find a function such that T(n) = Theta(g(n)). Show your reasoning and do not directly apply any master thoerems. In all subparts, you nay ignore any issues arising from whether a number is an integer. (a) T(]n) = 3/4T(n/4) ',
-        'hint': 'Think about XXXXX',
-        'subproblems': ['thishowitgoes'],
-        'solution': 'Lorem ipsum lores est istes maitum nox'
-    },
-    {
-        'question_id': 2,
-        'topic': 'Sorting Algorithms',
-        'question_description': 'For each part, find the asymptotic order of growth of T; that is, find a function g such that T(n) = Θ(g(n)). Show your reasoning and do not directly apply any master theorems. In all subparts, you may ignore any issues arising from whether a number is an integer.',
-        'hint': 'Think about the number of times you need to iterate through the array',
-        'question_subproblems': ['(a) T(n) = 3T(n/4) + 10n',],
-        'solution': 'Lorem ipsum lores est istes maitum nox'
-    }]
+    const questions = TopicalData
+    // const questions = [{
+    //     'question_id': 1,
+    //     'topic': 'Recurrence Relation',
+    //     'question_description': 'For each part, find the asymptotc growth of T; that is find a function such that T(n) = Theta(g(n)). Show your reasoning and do not directly apply any master thoerems. In all subparts, you nay ignore any issues arising from whether a number is an integer. (a) T(]n) = 3/4T(n/4) ',
+    //     'hint': 'Think about XXXXX',
+    //     'subproblems': ['thishowitgoes'],
+    //     'solution': 'Lorem ipsum lores est istes maitum nox'
+    // },
+    // {
+    //     'question_id': 2,
+    //     'topic': 'Sorting Algorithms',
+    //     'question_description': 'For each part, find the asymptotic order of growth of T; that is, find a function g such that T(n) = Θ(g(n)). Show your reasoning and do not directly apply any master theorems. In all subparts, you may ignore any issues arising from whether a number is an integer.',
+    //     'hint': 'Think about the number of times you need to iterate through the array',
+    //     'question_subproblems': ['(a) T(n) = 3T(n/4) + 10n',],
+    //     'solution': 'Lorem ipsum lores est istes maitum nox'
+    // }]
 
     return (
         <div className='flex flex-col w-full'>
@@ -115,8 +119,8 @@ export default function TopicalPractise({topic}: TopicalPractiseProps): JSX.Elem
                 topic={question.topic}
                 question_description={question.question_description} 
                 hint={question.hint}
-                solution={question.solution}
-                question_subproblems={question.question_subproblems? question.question_subproblems : null}
+                simplifiedAns={question.simplifiedAns}
+                question_subproblems={question.subproblem? question.subproblem : null}
                 currentQuestion={currentQuestion}
                 setQuestion={setCurrentQuestion} 
                 totalQuestions={questions.length}
