@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, Suspense } from 'react';
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
@@ -34,7 +34,7 @@ const DiagnosticQuestions: React.FC<DiagnosticQuestionProps> = (props) => {
                 report_id: props.report_id,
                 question_id: props.question_id,
                 user_input: userAnswer,
-                user_id: 912462614630957057
+                user_id: 912606855362707457
             })})
         console.log(JSON.stringify(res))
     }
@@ -100,13 +100,14 @@ export default function DiagnosticTest({course}: DiagnosticTestProps): JSX.Eleme
         const data = await res.json()
         if (res.status == 200) {
             console.log(data)
+            setTest(data)
         } else {
             console.log("error")
         }
         return data
     }
     useEffect(() => {
-        generateTest().then((data) => setTest(data))
+        generateTest()
     }, [])
 
 
@@ -125,6 +126,7 @@ export default function DiagnosticTest({course}: DiagnosticTestProps): JSX.Eleme
     // }]
 
     return (
+        <Suspense fallback={<div>Loading...</div>}>
         <div className='flex flex-col w-full'>
             <div className='flex justify-between mx-56'>
                 <Button onClick={() => setCurrentQuestion(currentQuestion - 1)} disabled={currentQuestion == 0 ? true:false} className={`w-36 bg-green-600 hover:bg-green-400 ${currentQuestion == 0 ? "disabled:bg-slate-400":null}`}>Previous Question</Button>
@@ -143,7 +145,7 @@ export default function DiagnosticTest({course}: DiagnosticTestProps): JSX.Eleme
                 report_id={test.report_id}
                 /> : null
             ))}
-            
         </div>
+        </Suspense>
     );
 }

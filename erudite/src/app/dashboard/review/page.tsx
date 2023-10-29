@@ -65,17 +65,21 @@ export default function ReviewTest() {
     ])
     const fetchReport = async () => {
         // Fetch Reports
-        const res = await fetch('/api/readDiagnosticTestQuestionReport/912462614630957057', {
+        const res = await fetch('/api/readDiagnosticTestQuestionReport/912606855362707457', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }})
         const data = await res.json()
-        console.log(data)
-        return data
+        if (res.status == 200) {
+            console.log(data)
+            setData(data)
+        } else {
+            console.log("error")
+        }
     }    
     useEffect(() => {
-        fetchReport().then((data) => setData(data))
+        fetchReport()
     }, [])
 
     return (
