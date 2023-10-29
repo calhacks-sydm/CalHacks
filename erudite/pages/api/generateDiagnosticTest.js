@@ -17,67 +17,63 @@ export default async (req, res) => {
         }
         
         var randomEntries = shuffledArray.slice(0, numberOfEntriesToSelect);
-        return randomEntries;
+        var ans = []
+        for (let i = 0; i < randomEntries.length; i++){
+          ans.push(randomEntries[i][1]);
+        }
+        return ans;
+        // return randomEntries
       }
 
-      // const topics = await prisma.topics.findMany();
 
-      // const topicsWithBigIntToString = topics.map((topic) => ({
-      //   ...topic, 
-      //   id: topic.id.toString(),
-      //   course_id: topic.course_id.toString(),
-      // }));
-
-      try {
-        const topics = await prisma.topics.findMany();
-        const topicsWithBigIntToString = topics.map((topic) => ({
-          ...topic,
-          id: topic.id.toString(), 
-          course_id: topic.course_id.toString()
-        }));
-
-        var selectedQuestions = []
-        for (let i = 0; i < topicsWithBigIntToString.length; i++) {
-          var currentTopic = topics[i]
-          
-          const questions = await prisma.Questions.findMany({
-              where: {
-                  topic_id: currentTopic.id
-              }
-          });
-          // console.log(questions)
-
-          // var topicChosenQuestions = getRandomEntriesFromObject(questions, 3)
-          // console.log(topicChosenQuestions);
-          var topicChosenQuestionWithBigIntToString = questions.map((question) => ({
-              ...question,
-              topic_name: currentTopic.topic_name,
-              id: question.id.toString(),
-              topic_id: question.topic_id.toString(),
-          }));
-          selectedQuestions.push(topicChosenQuestionWithBigIntToString[0])
-        }
-
-        function generateRandomString(length) {
-          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-          let result = '';
-        
-          for (let i = 0; i < length; i++) {
-            const randomIndex = Math.floor(Math.random() * characters.length);
-            result += characters.charAt(randomIndex);
-          }
-        
-          return result;
-        }
-
-        res.status(200).json({selected_questions: selectedQuestions, report_id: generateRandomString(10)});
-
-      } catch (error) {
-        console.log(error);
-        res.status(400).json({ error: 'Failed to fetch topics.' });
-      }
-      // console.log(topicsWithBigIntToString)
       
+      const topics = await prisma.topics.findMany();
+      const topicsWithBigIntToString = topics.map((topic) => ({
+        ...topic,
+        id: topic.id.toString(), 
+        course_id: topic.course_id.toString()
+      }));
+
+      var questionsArr = []
+      for (let i = 0; i < topicsWithBigIntToString.length; i++) {
+        var currentTopic = topics[i]
+        
+        const questions = await prisma.Questions.findMany({
+            where: {
+                topic_id: currentTopic.id
+            }
+        });
+        
+
+        // var topicChosenQuestions = getRandomEntriesFromObject(questions, 3)
+        
+        var topicChosenQuestionWithBigIntToString = questions.map((question) => ({
+            ...question,
+            topic_name: currentTopic.topic_name,
+            id: question.id.toString(),
+            topic_id: question.topic_id.toString(),
+        }));
+        questionsArr.push(topicChosenQuestionWithBigIntToString[0])
+      }
+      
+
+      var ChosenQuestions = getRandomEntriesFromObject(questionsArr, 8)
+
+      function generateRandomString(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+      
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * characters.length);
+          result += characters.charAt(randomIndex);
+        }
+      
+        return result;
+      }
+
+      res.status(200).json({selected_questions: ChosenQuestions, report_id: generateRandomString(10)});
+
+     
       // chosenTopics = getRandomEntriesFromObject(topicsWithBigIntToString, 12)
       
     
