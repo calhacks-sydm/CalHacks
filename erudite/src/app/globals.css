@@ -4,6 +4,10 @@
  
 @layer base {
   :root {
+    --igray: #E2E2E2;
+    --idark-green: #218865;
+    --ilight-green: #69AE97;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -73,4 +77,9 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+#root,
+#docs-root {
+  
 }
