@@ -1,4 +1,4 @@
-import { prisma } from '../../prisma/prisma.js'
+import prisma from '../../prisma/prisma.js'
 
 export default async (req, res) => {
   if (req.method === 'POST') {
@@ -13,9 +13,13 @@ export default async (req, res) => {
           password, 
         },
       });
-
+      const newUsersWithBigIntToString = {
+        ...newUser,
+        id: newUser.id.toString(),
+      }
       res.status(200).json(newUser);
     } catch (error) {
+      console.log(error);
       res.status(400).json({ error: 'Failed to create user.' }); // User with same email already in the database
     }
   } else {

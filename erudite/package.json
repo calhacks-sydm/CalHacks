@@ -1,9 +1,7 @@
 {
   "name": "erudite",
   "version": "0.1.0",
-  "private": true,  
-  "type":"module",
-  
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -18,6 +16,7 @@
     "clsx": "^2.0.0",
     "lucide-react": "^0.290.0",
     "next": "14.0.0",
+    "node-fetch": "^3.3.2",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^1.14.0",

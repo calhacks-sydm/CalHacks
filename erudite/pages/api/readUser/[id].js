@@ -1,20 +1,26 @@
 // pages/api/getUsers.js
 import prisma  from '../../../prisma/prisma.js'
 
-// const prisma = require('../../../prisma/prisma.js');
 export default async (req, res) => {
   if (req.method === 'GET') {
     try {
-        // const {
-        //     query: { email },
-        // } = req;
-        const email = 'dzchang@example.com'
+        const {
+            query: { id },
+        } = req;
+        
         const user = await prisma.user.findUnique({
             where: {
-              email: email,
+              id: id,
             },
          });
-        res.status(200).json(user);
+        
+        const usersWithBigIntToString = {
+          ...user,
+          id: user.id.toString(),
+        }
+        res.status(200).json(usersWithBigIntToString);
+         
+        
     } catch (error) {
         res.status(400).json({ error: 'Failed to fetch relevant users.' });
     }
